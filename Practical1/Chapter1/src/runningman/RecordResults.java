@@ -173,14 +173,48 @@ public class RecordResults extends javax.swing.JFrame {
   }//GEN-LAST:event_jbtAddActionPerformed
 
   private void jbtConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtConfirmActionPerformed
-
+    if (runner != null) {
+      finisherList.add(runner);
+      jtaResults.setText(formatFinisherList());
+      currentPosition++;
+      jtfCurrentPosition.setText("" + currentPosition);
+      jtfNumber.setText("");
+      jtfName.setText("");
+      runner = null;
+      jtfNumber.requestFocus();
+    } else {
+      JOptionPane.showMessageDialog(this, "Please enter a runner number.", "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
   }//GEN-LAST:event_jbtConfirmActionPerformed
 
   private void jtfCurrentPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCurrentPositionActionPerformed
   }//GEN-LAST:event_jtfCurrentPositionActionPerformed
 
   private void jtfNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNumberActionPerformed
-    
+    try {
+      int runnerNumber = Integer.parseInt(jtfNumber.getText().trim());
+      runner = null;
+
+      for (Runner runn : runnerList) {
+        if (runn.getNumber() == runnerNumber) {
+          runner = runn;
+          break;
+        }
+      }
+
+      if (runner != null) {
+        jtfName.setText(runner.getName());
+        jbtConfirm.requestFocus();
+      } else {
+        JOptionPane.showMessageDialog(this, "Runner not found.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        jtfNumber.setText("");
+        jtfNumber.requestFocus();
+      }
+    } catch (NumberFormatException ex) {
+      JOptionPane.showMessageDialog(this, "Invalid runner number.", "ERROR", JOptionPane.ERROR_MESSAGE);
+      jtfNumber.setText("");
+      jtfNumber.requestFocus();
+    }
   }//GEN-LAST:event_jtfNumberActionPerformed
 
   private void initializeList() {
